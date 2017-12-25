@@ -1,3 +1,7 @@
 form a {
   margin-left: 5px
 }
+
+a li:hover {
+  background-color: rgba(100,100,100, 0.5)
+}

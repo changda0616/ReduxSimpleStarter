@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router-dom'
 import { createPost } from '../actions/index'
+import { connect } from 'react-redux'
 
 class PostsNew extends Component {
   renderField (field) {
@@ -22,7 +23,9 @@ class PostsNew extends Component {
     )
   }
   onSubmit (values) {
-    createPost(values)
+    this.props.createPost(values, () => {
+      this.props.history.push('/')
+    })
   }
   render () {
     const {handleSubmit} = this.props
@@ -34,8 +37,8 @@ class PostsNew extends Component {
           component={this.renderField}
         />
         <Field
-          title='Tag'
-          name='tag'
+          title='Categories'
+          name='categories'
           component={this.renderField}
         />
         <Field
@@ -56,8 +59,8 @@ function validate (values) {
   if (!values.title) {
     error.title = 'TITLE CAN\'T EMPTY'
   }
-  if (!values.tag) {
-    error.tag = 'TAG CAN\'T EMPTY'
+  if (!values.categories) {
+    error.categories = 'CATEGORIES CAN\'T EMPTY'
   }
   if (!values.content) {
     error.content = 'CONTENT CAN\'T EMPTY'
@@ -68,4 +71,6 @@ function validate (values) {
 export default reduxForm({
   validate,
   form: 'PostsNewForm'
-})(PostsNew)
+})(
+  connect(null, {createPost})(PostsNew)
+)
